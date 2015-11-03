@@ -7,15 +7,15 @@ Seq::Seq() {
 	seq_name = "";
 	sequence = "";
 	length = 0;
-	has_data = false;
+	available = false;
 }
 
 Seq::Seq(string seq_name, string sequence) {
-	this.seq_name = seq_name;
-	this.sequence = sequence;
+	this->seq_name = seq_name;
+	this->sequence = sequence;
 	length = sequence.length();
 
-	available = (length > 0) ? true : false;
+	available = true;
 }
 
 Seq::~Seq() {
@@ -30,14 +30,20 @@ bool Seq::is_available() {
 }
 
 string Seq::getName() {
-	return seq_name;
+	if (available) {
+		return seq_name;
+	}
+	return "";
 }
 
 string Seq::getSequence() {
-	return sequence;
+	if (available) {
+		return sequence;
+	}
+	return "";
 }
 
-string Seq::getLength() {
+int Seq::getLength() {
 	return length;
 }
 
@@ -57,7 +63,7 @@ std::string Seq::getSubSeq(int pos) {
 }
 
 std::string Seq::getSubSeq(int pos, int length) {
-	if (available && pos + length < this.length)
+	if (available && pos + length < this->length)
 		return sequence.substr(pos, length);
 
 	return NULL;
@@ -69,13 +75,17 @@ SeqList::SeqList() {
 }
 
 SeqList::~SeqList() {
+	for (vector<Seq*>::iterator it = seq_list.begin();
+		it != seq_list.end(); ++it) {
+		delete *it;
+	}
 	seq_list.clear();
 	count = 0;
 	available = false;
 }
 
-void SeqList::addSeq(Seq seq) {
-	if (Seq.is_available()) {
+void SeqList::addSeq(Seq* seq) {
+	if (seq->is_available()) {
 		seq_list.push_back(seq);
 		count++;
 
@@ -84,7 +94,7 @@ void SeqList::addSeq(Seq seq) {
 	}
 }
 
-Seq SeqList::getSeq(int pos) {
+Seq* SeqList::getSeq(int pos) {
 	if (available && pos < count) {
 		return seq_list[pos];
 	}
@@ -92,11 +102,11 @@ Seq SeqList::getSeq(int pos) {
 	return NULL;
 }
 
-Seq SeqList::getSeq(std::string seq_name) {
+Seq* SeqList::getSeq(std::string seq_name) {
 	if (available) {
-		for (vector<Seq>::iterator it = seq_list.begin(); 
+		for (vector<Seq*>::iterator it = seq_list.begin(); 
 			it != seq_list.end(); ++it) {
-			if (seq_name.compare(it->getName()) == 0) {
+			if (seq_name.compare((*it)->getName()) == 0) {
 				return *it;
 			}
 		}
@@ -107,10 +117,18 @@ Seq SeqList::getSeq(std::string seq_name) {
 	return NULL;
 }
 
-void readSeqsFromFile(const char* file_name) {
+bool SeqList::is_available() {
+	return available;
+}
+
+int SeqList::getCount() {
+	return count;
+}
+
+void SeqList::readSeqsFromFile(const char* file_name) {
 	ifstream fasta;
 	string line;
-	Seq seq;
+	Seq* seq = NULL;
 
 	fasta.open(file_name, ifstream::in);
 
@@ -118,17 +136,17 @@ void readSeqsFromFile(const char* file_name) {
 		fasta >> line;
 
 		if (line[0] == '>') {
-			if (seq.is_available()) {
-				this.addSeq(seq);
+			if (seq && seq->is_available()) {
+				this->addSeq(seq);
 			}
 			seq = new Seq(line.substr(1), "");
 		} else {
-			seq.addSequence(line);
+			seq->addSequence(line);
 		}
 	}
 	
-	if (seq.is_available()) {
-		this.addSeq(seq);
+	if (seq->is_available()) {
+		this->addSeq(seq);
 	}
 
 	fasta.close();

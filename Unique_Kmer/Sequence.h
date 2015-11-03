@@ -13,7 +13,7 @@ class Seq {
 		bool is_available();
 		std::string getName();
 		std::string getSequence();
-		std::string getLength();
+		int getLength();
 
 		void addSequence(std::string seq);
 
@@ -32,14 +32,17 @@ class SeqList {
 		SeqList();
 		~SeqList();
 
-		void addSeq(Seq seq);
-		Seq getSeq(int pos);
-		Seq getSeq(std::string seq_name);
+		void addSeq(Seq* seq);
+		Seq* getSeq(int pos);
+		Seq* getSeq(std::string seq_name);
+
+		bool is_available();
+		int getCount();
 
 		void readSeqsFromFile(const char* file_name);
 
 	private:
-		std::vector<Seq> seq_list;
+		std::vector<Seq*> seq_list;
 		int count;
 		bool available;
 };
