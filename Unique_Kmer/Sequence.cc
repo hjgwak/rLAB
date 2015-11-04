@@ -1,4 +1,5 @@
 #include "Sequence.h"
+#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -45,6 +46,31 @@ string Seq::getSequence() {
 
 int Seq::getLength() {
 	return length;
+}
+
+void Seq::readSeqFromFile(string file_name) {
+	ifstream fasta;
+	string line;
+	bool singleton = true;
+
+	fasta.open(file_name, ifstream::in);
+
+	while(!fasta.eof()) {
+		fasta >> line;
+		if (line[0] == '>') {
+			if (singleton) {
+				seq_name = line.substr(1);
+			} else {
+				cerr << "ERROR : input file is not single fasta" << endl;
+				fasta.close();
+				exit(EXIT_FAILURE);
+			}
+		} else {
+			this->addSequence(line);
+		}
+		line.clear();
+	}
+	fasta.close();
 }
 
 void Seq::addSequence(std::string seq) {
@@ -143,6 +169,7 @@ void SeqList::readSeqsFromFile(const char* file_name) {
 		} else {
 			seq->addSequence(line);
 		}
+		line.clear();
 	}
 	
 	if (seq->is_available()) {

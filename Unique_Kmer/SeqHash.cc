@@ -28,6 +28,12 @@ void SeqHash::addSeq(string seq, int pos) {
 	}
 }
 
+void SeqHash::rmSeq(string seq) {
+	if (this->isSeqExist(seq)) {
+		hash_map.erase(seq);
+	}
+}
+
 pair<string, vector<int> > SeqHash::getSeq(string name) {
 	vector<int> empty;
 
@@ -44,4 +50,14 @@ bool SeqHash::isSeqExist(string seq) {
 	it = hash_map.find(seq);
 
 	return (it != hash_map.end()) ? true : false;
+}
+
+vector<string> SeqHash::getKeys() {
+	vector<string> keys;
+	map<string, vector<int> >::iterator it;
+	for (it = hash_map.begin(); it != hash_map.end(); ++it) {
+		keys.push_back(it->first);
+	}
+
+	return keys;
 }

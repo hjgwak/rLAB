@@ -7,6 +7,7 @@
 class Options {
 	public:
 		Options();
+		Options(std::vector<std::string> argv);
 
 		void parseOptions(std::vector<std::string> argv);
 		void help();

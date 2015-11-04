@@ -23,6 +23,10 @@ Options::Options() {
 	_db = "";
 }
 
+Options::Options(vector<string> argv) {
+	this->parseOptions(argv);
+}
+
 void Options::parseOptions(vector<string> argv) {
 	bool r_k = false, r_i = false, r_o = false, r_db = false;
 
@@ -45,7 +49,7 @@ void Options::parseOptions(vector<string> argv) {
 	}
 
 	if (!_help && !(r_k && r_i && r_o && r_db)) {
-		cout << "ERROR : Lack of required option!" << endl;
+		cerr << "ERROR : Lack of required option!" << endl;
 		exit(EXIT_FAILURE);
 	}
 }

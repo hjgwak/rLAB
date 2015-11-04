@@ -11,12 +11,15 @@ class SeqHash {
 		SeqHash();
 		~SeqHash();
 
-		int getSize();
 		bool is_available();
+		int getSize();
 
 		void addSeq(std::string seq, int pos);
+		void rmSeq(std::string seq);
 		std::pair<std::string, std::vector<int> > getSeq(std::string name);
 		bool isSeqExist(std::string seq);
+
+		vector<std::string> getKeys();
 
 	private:
 		std::map<std::string, std::vector<int> > hash_map;

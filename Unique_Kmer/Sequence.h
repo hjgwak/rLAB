@@ -15,6 +15,7 @@ class Seq {
 		std::string getSequence();
 		int getLength();
 
+		void readSeqFromFile(std::string file_name);
 		void addSequence(std::string seq);
 
 		std::string getSubSeq(int pos);
