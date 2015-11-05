@@ -1,6 +1,7 @@
 #include "Sequence.h"
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -51,20 +52,25 @@ int Seq::getLength() {
 void Seq::readSeqFromFile(string file_name) {
 	ifstream fasta;
 	string line;
+	string name;
 	bool singleton = true;
 
-	fasta.open(file_name, ifstream::in);
+	fasta.open(file_name.c_str(), ifstream::in);
+
+	getline(fasta, name);
+	if (name[0] == '>') {
+		seq_name = name.substr(1);
+	} else {
+		cerr << "ERROR : Sequence name missing" << endl;
+		exit(EXIT_FAILURE);
+	}
 
 	while(!fasta.eof()) {
-		fasta >> line;
+		getline(fasta, line);
 		if (line[0] == '>') {
-			if (singleton) {
-				seq_name = line.substr(1);
-			} else {
-				cerr << "ERROR : input file is not single fasta" << endl;
-				fasta.close();
-				exit(EXIT_FAILURE);
-			}
+			cerr << "ERROR : input file is not single fasta" << endl;
+			fasta.close();
+			exit(EXIT_FAILURE);
 		} else {
 			this->addSequence(line);
 		}
@@ -151,15 +157,15 @@ int SeqList::getCount() {
 	return count;
 }
 
-void SeqList::readSeqsFromFile(const char* file_name) {
+void SeqList::readSeqsFromFile(string file_name) {
 	ifstream fasta;
 	string line;
 	Seq* seq = NULL;
 
-	fasta.open(file_name, ifstream::in);
+	fasta.open(file_name.c_str(), ifstream::in);
 
 	while (!fasta.eof()) {
-		fasta >> line;
+		getline(fasta, line);
 
 		if (line[0] == '>') {
 			if (seq && seq->is_available()) {
