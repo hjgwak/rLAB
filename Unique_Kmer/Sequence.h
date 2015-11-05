@@ -40,7 +40,7 @@ class SeqList {
 		bool is_available();
 		int getCount();
 
-		void readSeqsFromFile(const char* file_name);
+		void readSeqsFromFile(std::string file_name);
 
 	private:
 		std::vector<Seq*> seq_list;

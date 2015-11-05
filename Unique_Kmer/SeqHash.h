@@ -19,7 +19,7 @@ class SeqHash {
 		std::pair<std::string, std::vector<int> > getSeq(std::string name);
 		bool isSeqExist(std::string seq);
 
-		vector<std::string> getKeys();
+		std::vector<std::string> getKeys();
 
 	private:
 		std::map<std::string, std::vector<int> > hash_map;
