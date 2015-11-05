@@ -1,7 +1,7 @@
 #include "Sequence.h"
+#include "Error.h"
 #include <iostream>
 #include <fstream>
-#include <cstdlib>
 
 using namespace std;
 
@@ -61,16 +61,14 @@ void Seq::readSeqFromFile(string file_name) {
 	if (name[0] == '>') {
 		seq_name = name.substr(1);
 	} else {
-		cerr << "ERROR : Sequence name missing" << endl;
-		exit(EXIT_FAILURE);
+		Exit_Failure("ERROR : Sequence name missing");
 	}
 
 	while(!fasta.eof()) {
 		getline(fasta, line);
 		if (line[0] == '>') {
-			cerr << "ERROR : input file is not single fasta" << endl;
 			fasta.close();
-			exit(EXIT_FAILURE);
+			Exit_Failure("ERROR : input file is not single fasta");
 		} else {
 			this->addSequence(line);
 		}
