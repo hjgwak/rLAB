@@ -1,5 +1,5 @@
 #include "Options.h"
-#include <cstdlib>
+#include "Error.h"
 #include <iostream>
 
 using namespace std;
@@ -49,8 +49,7 @@ void Options::parseOptions(vector<string> argv) {
 	}
 
 	if (!_help && !(r_k && r_i && r_o && r_db)) {
-		cerr << "ERROR : Lack of required option!" << endl;
-		exit(EXIT_FAILURE);
+		Exit_Failure("ERROR : Lack of required option!");
 	}
 }
 

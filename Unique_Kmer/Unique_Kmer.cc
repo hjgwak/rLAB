@@ -1,6 +1,7 @@
 #include "Sequence.h"
 #include "SeqHash.h"
 #include "Options.h"
+#include "Error.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -20,8 +21,7 @@ int main(int argc, char* argv[]) {
 
 	output_f.open(opts.output().c_str(), ofstream::out);
 	if(!output_f.is_open()) {
-		cerr << "ERROR : Output file open error!" << endl;
-		exit(EXIT_FAILURE);
+		Exit_Failure("ERROR : Output file open error!");
 	}
 
 	//get genome sequence from input file
