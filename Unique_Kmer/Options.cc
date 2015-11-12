@@ -4,30 +4,41 @@
 
 using namespace std;
 
-static void printUSAGE() {
+static void printUSAGE(string program) {
 	cout << "\n############################################################\n" << endl;
-	cout << "Unique_kmer [Options]\n" << endl;
+	cout << "Kmer_unique [Options]\n" << endl;
 	cout << "Options\n" << endl;
-	cout << "\t-i\tinput filename in fasta format, required" << endl;
+	cout << "\t-i\tinput filename in hl format, required" << endl;
 	cout << "\t-o\toutput filename, required" << endl;
-	cout << "\t-k\twindow size for split, required" << endl;
-	cout << "\t-db\tdirectory which has sequences for compare between input file, required" << endl;
+	if (program.compare("build") == 0) {
+		cout << "\t-k\twindow size for split, required" << endl;
+		cout << "\t-e\tmake hash list for each sequence" << endl;
+	}
+	if (program.compare("unique") == 0 || program.compare("common") == 0)
+		cout << "\t-db\tdirectory which has sequences for compare between input file, required" << endl;
+	cout << "\t-q\tquiet, if set this option, do not print any error msg" << endl;
+	cout << "\nOuput" << endl;
+	cout << "\t(output filename).hl" << endl;
+	cout << "\t#(seq name)" << endl;
+	cout << "\tkmer\tposition" << endl;
 	cout << endl;
 }
 
 Options::Options() {
 	_help = false;
+	_each = false;
+	_quiet = false;
 	_k = 0;
 	_input = "";
 	_output = "";
 	_db = "";
 }
 
-Options::Options(vector<string> argv) {
-	this->parseOptions(argv);
+Options::Options(vector<string> argv, string program) {
+	this->parseOptions(argv, program);
 }
 
-void Options::parseOptions(vector<string> argv) {
+void Options::parseOptions(vector<string> argv, string program) {
 	bool r_k = false, r_i = false, r_o = false, r_db = false;
 
 	for(int i = 0; i < argv.size(); ++i) {
@@ -45,19 +56,36 @@ void Options::parseOptions(vector<string> argv) {
 		} else if (argv[i] == "-db") {
 			_db = argv[i+1];
 			r_db = true;
+		} else if (argv[i] == "-e") {
+			_each = true;
+		} else if (argv[i] == "-q") {
+			_quiet = true;
 		}
 	}
 
-	if (!_help && !(r_k && r_i && r_o && r_db)) {
+	if (!_help && (program.compare("unique") == 0 || 
+		program.compare("common") == 0) &&
+		!(r_i && r_o && r_db)) {
+		Exit_Failure("ERROR : Lack of required option!");
+	} else if (!_help && (program.compare("build") == 0) &&
+		!(r_i && r_o && r_k)) {
 		Exit_Failure("ERROR : Lack of required option!");
 	}
 }
 
-void Options::help() {
+void Options::help(string program) {
 	if(_help) {
-		printUSAGE();
+		printUSAGE(program);
 		exit(0);
 	}
+}
+
+bool Options::quiet() {
+	return _quiet;
+}
+
+bool Options::each() {
+	return _each;
 }
 
 int Options::k() {

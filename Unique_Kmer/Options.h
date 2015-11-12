@@ -7,17 +7,21 @@
 class Options {
 	public:
 		Options();
-		Options(std::vector<std::string> argv);
+		Options(std::vector<std::string> argv, std::string program);
 
-		void parseOptions(std::vector<std::string> argv);
-		void help();
+		void parseOptions(std::vector<std::string> argv, std::string program);
+		void help(std::string program);
+		bool quiet();
+		bool each();
 		int k();
 		std::string input();
 		std::string output();
 		std::string db();
 
 	private:
+		bool _quiet;
 		bool _help;
+		bool _each;
 		int _k;
 		std::string _input;
 		std::string _output;

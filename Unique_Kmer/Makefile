@@ -1,29 +1,37 @@
 CC = g++
 
-PROGS = Unique_Kmer
+SEQUENCE_OBJ = Sequence.o
+SEQHASH_OBJ = SeqHash.o
+OPTIONS_OBJ = Options.o
+ERROR_OBJ = Error.o
 
-all: $(PROGS)
+BUILD_OBJ = Kmer_build.o
+UNIQUE_OBJ = Kmer_unique.o
+COMMON_OBJ = Kmer_common.o
+
+COMMON_OBJS = $(SEQUENCE_OBJ) $(SEQHASH_OBJ) $(OPTIONS_OBJ) $(ERROR_OBJ)
+OBJS = $(BUILD_OBJ) $(UNIQUE_OBJ) $(COMMON_OBJ) $(COMMON_OBJS)
+
+BUILD = Kmer_build
+UNIQUE = Kmer_unique
+COMMON = Kmer_common
+
+TARGET = $(BUILD) $(UNIQUE) $(COMMON)
+
+.SUFFIXES = .cc .o
+
+all: $(TARGET)
 
 clean:
-	rm -f *.o $(PROGS)
+	rm -f *.o $(TARGET)
 
 # programs
 
-Unique_Kmer: Unique_Kmer.o Sequence.o SeqHash.o Options.o Error.o
-	$(CC) -o Unique_Kmer Unique_Kmer.o Sequence.o SeqHash.o Options.o Error.o
+$(BUILD) : $(BUILD_OBJ) $(COMMON_OBJS)
+	$(CC) -o $@ $(BUILD_OBJ) $(COMMON_OBJS)
 
-#objects
-Sequence.o: Sequence.cc Sequence.h
-	$(CC) -c Sequence.cc
+$(UNIQUE) : $(UNIQUE_OBJ) $(COMMON_OBJS)
+	$(CC) -o $@ $(UNIQUE_OBJ) $(COMMON_OBJS)
 
-SeqHash.o: SeqHash.cc SeqHash.h
-	$(CC) -c SeqHash.cc
-
-Options.o: Options.cc Options.h
-	$(CC) -c Options.cc
-
-Error.o: Error.cc Error.h
-	$(CC) -c Error.cc
-
-Unique_Kmer.o: Unique_Kmer.cc
-	$(CC) -c Unique_Kmer.cc
+$(COMMON) : $(COMMON_OBJ) $(COMMON_OBJS)
+	$(CC) -o $@ $(COMMON_OBJ) $(COMMON_OBJS)
