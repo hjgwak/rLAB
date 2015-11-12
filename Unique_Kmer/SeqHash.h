@@ -6,6 +6,7 @@
 #include <vector>
 #include <utility>
 #include <fstream>
+#include <iostream>
 
 class SeqHash {
 	public:
@@ -17,7 +18,7 @@ class SeqHash {
 		std::string getName();
 
 		void readHashFromFile(std::string file_name);
-		void printHash(std::ofstream& output);
+		void printHash(std::ostream& output);
 
 		void setName(std::string name);
 		void addSeq(std::string seq, int pos);

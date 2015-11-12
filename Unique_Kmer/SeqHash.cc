@@ -57,6 +57,7 @@ void SeqHash::readHashFromFile(string file_name) {
 
 	while(!hl_f.eof()) {
 		getline(hl_f, line);
+		if (line.empty()) break;
 		if (line[0] == '#') {
 			hl_f.close();
 			Exit_Failure("ERROR : input file is not single hash");
@@ -73,7 +74,7 @@ void SeqHash::readHashFromFile(string file_name) {
 	hl_f.close();
 }
 
-void SeqHash::printHash(ofstream& output) {
+void SeqHash::printHash(ostream& output) {
 	vector<string> keys = this->getKeys();
 	pair<string, vector<int> > elem;
 	for (vector<string>::iterator it = keys.begin(); it != keys.end(); ++it) {

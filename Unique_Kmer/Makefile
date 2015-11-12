@@ -18,7 +18,7 @@ COMMON = Kmer_common
 
 TARGET = $(BUILD) $(UNIQUE) $(COMMON)
 
-FLAGS = -std=c++11
+FLAGS = -std=c++11 -stdlib=libc++
 
 .SUFFIXES = .cc .o
 
@@ -30,13 +30,13 @@ clean:
 # programs
 
 $(BUILD) : $(BUILD_OBJ) $(COMMON_OBJS)
-	$(CC) -o $@ $(BUILD_OBJ) $(COMMON_OBJS)
+	$(CC) -o $@ $(FLAGS) $(BUILD_OBJ) $(COMMON_OBJS)
 
 $(UNIQUE) : $(UNIQUE_OBJ) $(COMMON_OBJS)
-	$(CC) -o $@ $(UNIQUE_OBJ) $(COMMON_OBJS)
+	$(CC) -o $@ $(FLAGS) $(UNIQUE_OBJ) $(COMMON_OBJS)
 
 $(COMMON) : $(COMMON_OBJ) $(COMMON_OBJS)
-	$(CC) -o $@ $(COMMON_OBJ) $(COMMON_OBJS)
+	$(CC) -o $@ $(FLAGS) $(COMMON_OBJ) $(COMMON_OBJS)
 
 #object
 
