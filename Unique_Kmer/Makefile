@@ -18,12 +18,14 @@ COMMON = Kmer_common
 
 TARGET = $(BUILD) $(UNIQUE) $(COMMON)
 
+FLAGS = -std=c++11
+
 .SUFFIXES = .cc .o
 
 all: $(TARGET)
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f $(OBJS) $(TARGET)
 
 # programs
 
@@ -35,3 +37,8 @@ $(UNIQUE) : $(UNIQUE_OBJ) $(COMMON_OBJS)
 
 $(COMMON) : $(COMMON_OBJ) $(COMMON_OBJS)
 	$(CC) -o $@ $(COMMON_OBJ) $(COMMON_OBJS)
+
+#object
+
+$(SEQHASH_OBJ) : SeqHash.h SeqHash.cc
+	$(CC) $(FLAGS) -c -o $@ SeqHash.cc

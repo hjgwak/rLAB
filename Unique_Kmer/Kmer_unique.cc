@@ -51,6 +51,7 @@ int main(int argc, char* argv[]) {
 	//report unique sub_seqs and positions
 	if (!opts.quiet())
 		cerr << "report unique sub_seqs and positions" << endl;
+	output_f << genome.getName() << ".unique" << endl;
 	genome.printHash(output_f);
 
 	output_f.close();

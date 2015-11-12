@@ -1,6 +1,7 @@
 #include "Options.h"
 #include "Error.h"
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 

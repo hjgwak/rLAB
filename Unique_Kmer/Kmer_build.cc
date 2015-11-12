@@ -60,11 +60,11 @@ int main(int argc, char* argv[]) {
 
 	if (opts.each()) {
 		for (int i = 0; i < sequence.getCount(); ++i) {
-			cout << "#" << sequence_hash[i].getName() << endl;
+			output_f << "#" << sequence_hash[i].getName() << endl;
 			sequence_hash[i].printHash(output_f);
 		}
 	} else {
-		cout << "#" << sequence_hash->getName() << endl;
+		output_f << "#" << sequence_hash->getName() << endl;
 		sequence_hash->printHash(output_f);
 	}
 
