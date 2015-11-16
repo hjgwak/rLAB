@@ -93,7 +93,7 @@ std::string Seq::getSubSeq(int pos) {
 }
 
 std::string Seq::getSubSeq(int pos, int length) {
-	if (available && pos + length < this->length)
+	if (available && pos + length <= this->length)
 		return sequence.substr(pos, length);
 
 	return NULL;

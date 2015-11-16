@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 			sequence_hash[i].setName(data_seq->getName());
 		else
 			sequence_hash->setName(data_seq->getName());
-		for (int j = 0; j < data_seq->getLength() - opts.k(); ++j) {
+		for (int j = 0; j <= data_seq->getLength() - opts.k(); ++j) {
 			if (opts.each())
 				sequence_hash[i].addSeq(data_seq->getSubSeq(j, opts.k()), j);
 			else

@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	//open output fi;e
+	//open output file
 	ofstream output_f;
 
 	output_f.open(opts.output().c_str(), ofstream::out);
