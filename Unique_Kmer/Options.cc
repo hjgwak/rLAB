@@ -13,10 +13,12 @@ static void printUSAGE(string program) {
 	cout << "\t-o\toutput filename, required" << endl;
 	if (program.compare("build") == 0) {
 		cout << "\t-k\twindow size for split, required" << endl;
-		cout << "\t-e\tmake hash list for each sequence" << endl;
+		cout << "\t-e\tmake hash list for each sequence, Default false" << endl;
 	}
 	if (program.compare("unique") == 0 || program.compare("common") == 0)
 		cout << "\t-db\tdirectory which has sequences for compare between input file, required" << endl;
+	if (program.compare("common") == 0)
+		cout << "\t-c\tthreshold of determining common [0.0-1.0], Default 1.0" << endl;
 	cout << "\t-q\tquiet, if set this option, do not print any error msg" << endl;
 	cout << "\nOuput" << endl;
 	cout << "\t(output filename).hl" << endl;
@@ -30,12 +32,17 @@ Options::Options() {
 	_each = false;
 	_quiet = false;
 	_k = 0;
+	_threshold_common = 1.0;
 	_input = "";
 	_output = "";
 	_db = "";
 }
 
 Options::Options(vector<string> argv, string program) {
+	_help = false;
+	_each = false;
+	_quiet = false;
+	_threshold_common = 1.0;
 	this->parseOptions(argv, program);
 }
 
@@ -61,6 +68,8 @@ void Options::parseOptions(vector<string> argv, string program) {
 			_each = true;
 		} else if (argv[i] == "-q") {
 			_quiet = true;
+		} else if (argv[i] == "-c") {
+			_threshold_common = atof(argv[i+1].c_str());
 		}
 	}
 
@@ -91,6 +100,10 @@ bool Options::each() {
 
 int Options::k() {
 	return _k;
+}
+
+double Options::threshold_common() {
+	return _threshold_common;
 }
 
 string Options::input() {

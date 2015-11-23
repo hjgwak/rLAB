@@ -14,6 +14,7 @@ class Options {
 		bool quiet();
 		bool each();
 		int k();
+		double threshold_common();
 		std::string input();
 		std::string output();
 		std::string db();
@@ -23,6 +24,7 @@ class Options {
 		bool _help;
 		bool _each;
 		int _k;
+		double _threshold_common;
 		std::string _input;
 		std::string _output;
 		std::string _db;

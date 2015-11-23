@@ -13,8 +13,8 @@ int main(int argc, char* argv[]) {
 	vector<string> options (argv, argv+argc);
 	Options opts;
 
-	opts.parseOptions(options, "unique");
-	opts.help("unique");
+	opts.parseOptions(options, "common");
+	opts.help("common");
 
 	
 	//get genome sequence_hash from input file
@@ -35,10 +35,11 @@ int main(int argc, char* argv[]) {
 	vector<string> keys = genome.getKeys();
 
 	for (vector<string>::iterator it = keys.begin(); it != keys.end(); ++it) {
-		bool common = true;
-		for (int i = 0; common && i < database.getCount(); ++i) {
-			common = common && database.getSeqHash(i)->isSeqExist(*it);
+		double count = 0.0;
+		for (int i = 0; i < database.getCount(); ++i) {
+			count += database.getSeqHash(i)->isSeqExist(*it) ? 1.0 : 0.0;
 		}
+		bool common = (count / database.getCount()) >= opts.threshold_common() ? true : false;
 		if (!common) {
 			genome.rmSeq(*it);
 		}
