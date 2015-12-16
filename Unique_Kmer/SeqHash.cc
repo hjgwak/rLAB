@@ -135,7 +135,7 @@ SeqHashList::SeqHashList() {
 	count = 0;
 	available = false;
 }
-
+/*
 SeqHashList::~SeqHashList() {
 	for (vector<SeqHash*>::iterator it = hash_list.begin();
 		it != hash_list.end(); ++it) {
@@ -145,7 +145,7 @@ SeqHashList::~SeqHashList() {
 	count = 0;
 	available = false;
 }
-
+*/
 void SeqHashList::addSeqHash(SeqHash* seq_hash) {
 	if (seq_hash->is_available()) {
 		hash_list.push_back(seq_hash);

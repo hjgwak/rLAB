@@ -18,6 +18,7 @@ class Options {
 		std::string input();
 		std::string output();
 		std::string db();
+		std::string prog();
 
 	private:
 		bool _quiet;
@@ -28,6 +29,7 @@ class Options {
 		std::string _input;
 		std::string _output;
 		std::string _db;
+		std::string _prog;
 };
 
 #endif //__OPTIONS_H__

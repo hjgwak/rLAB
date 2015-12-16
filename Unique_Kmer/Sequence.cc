@@ -103,7 +103,7 @@ SeqList::SeqList() {
 	count = 0;
 	available = false;
 }
-
+/*
 SeqList::~SeqList() {
 	for (vector<Seq*>::iterator it = seq_list.begin();
 		it != seq_list.end(); ++it) {
@@ -113,7 +113,7 @@ SeqList::~SeqList() {
 	count = 0;
 	available = false;
 }
-
+*/
 void SeqList::addSeq(Seq* seq) {
 	if (seq->is_available()) {
 		seq_list.push_back(seq);

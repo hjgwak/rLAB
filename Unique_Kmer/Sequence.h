@@ -31,7 +31,7 @@ class Seq {
 class SeqList {
 	public:
 		SeqList();
-		~SeqList();
+		~SeqList() {};
 
 		void addSeq(Seq* seq);
 		Seq* getSeq(int pos);

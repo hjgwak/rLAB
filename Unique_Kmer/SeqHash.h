@@ -38,7 +38,7 @@ class SeqHash {
 class SeqHashList {
 	public:
 		SeqHashList();
-		~SeqHashList();
+		~SeqHashList() {};
 
 		void addSeqHash(SeqHash* seq_hash);
 		SeqHash* getSeqHash(int pos);
